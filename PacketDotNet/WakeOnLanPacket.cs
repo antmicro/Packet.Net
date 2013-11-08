@@ -44,6 +44,11 @@ namespace PacketDotNet
 
         #region Constructors
 
+        static WakeOnLanPacket()
+        {
+            packetLength = macRepetitions * EthernetFields.MacAddressLength + syncSequence.Length;
+        }
+
         /// <summary>
         /// Create a Wake-On-LAN packet from the destination MAC address
         /// </summary>
@@ -56,7 +61,6 @@ namespace PacketDotNet
 
             // allocate memory for this packet
             int offset = 0;
-            int packetLength = syncSequence.Length + (EthernetFields.MacAddressLength * macRepetitions);
             var packetBytes = new byte[packetLength];
             var destinationMACBytes = destinationMAC.GetAddressBytes();
 
@@ -88,6 +92,8 @@ namespace PacketDotNet
         public WakeOnLanPacket(ByteArraySegment bas)
         {
             log.Debug("");
+
+            RandomUtils.EnsurePacketLength(this, packetLength, bas.Length);
 
             if(WakeOnLanPacket.IsValid(bas))
             {
@@ -322,6 +328,8 @@ namespace PacketDotNet
 
         // the number of times the Destination MAC appears in the payload
         private static readonly int macRepetitions = 16;
+
+        private static readonly int packetLength;
 
         #endregion
     }

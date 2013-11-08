@@ -341,6 +341,8 @@ namespace PacketDotNet
             // set the header field, header field values are retrieved from this byte array
             header = new ByteArraySegment(bas);
 
+            RandomUtils.EnsurePacketLength(this, TcpPacket.HeaderMinimumLength, header.Length);
+            RandomUtils.EnsurePacketLength(this, DataOffset * 4, header.Length);
             // NOTE: we update the Length field AFTER the header field because
             // we need the header to be valid to retrieve the value of DataOffset
             header.Length = DataOffset * 4;
@@ -381,6 +383,7 @@ namespace PacketDotNet
                                 ipv4Parent.HeaderLength * 4);
 
                 var newTcpPayloadLength = ipPayloadTotalLength - this.Header.Length;
+                RandomUtils.EnsurePacketLength(this, newTcpPayloadLength, payloadPacketOrData.TheByteArraySegment.Length);
 
                 log.DebugFormat("Header.Length {0}, Current payload length: {1}, new payload length {2}",
                                 this.header.Length,

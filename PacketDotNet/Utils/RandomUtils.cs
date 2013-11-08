@@ -78,5 +78,13 @@ namespace PacketDotNet.Utils
             }
             return longest.Length;
         }
+
+        public static void EnsurePacketLength(Packet packet, int minimalLength, int actualLength)
+        {
+            if(actualLength < minimalLength)
+            {
+                throw new PacketConstraintException(packet.GetType().Name, minimalLength, actualLength);
+            }
+        }
     }
 }

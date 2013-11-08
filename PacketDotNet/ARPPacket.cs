@@ -316,6 +316,7 @@ namespace PacketDotNet
         public ARPPacket(ByteArraySegment bas)
         {
             header = new ByteArraySegment(bas);
+            RandomUtils.EnsurePacketLength(this, ARPFields.HeaderLength, header.Length);
             header.Length = ARPFields.HeaderLength;
 
             // NOTE: no need to set the payloadPacketOrData field, arp packets have

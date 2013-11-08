@@ -87,6 +87,7 @@ namespace PacketDotNet
 
             // slice off the header portion as our header
             header = new ByteArraySegment(bas);
+            RandomUtils.EnsurePacketLength(this, PPPFields.HeaderLength, header.Length);
             header.Length = PPPFields.HeaderLength;
 
             // parse the encapsulated bytes

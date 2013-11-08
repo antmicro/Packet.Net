@@ -181,9 +181,12 @@ namespace PacketDotNet
         {
             log.Debug("");
 
+
             // slice off the header portion
             header = new ByteArraySegment(bas);
             header.Length = EthernetFields.HeaderLength;
+
+            RandomUtils.EnsurePacketLength(this, EthernetFields.HeaderLength, header.Length);
 
             // parse the encapsulated bytes
             payloadPacketOrData = ParseEncapsulatedBytes(header, Type);

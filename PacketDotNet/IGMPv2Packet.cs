@@ -110,6 +110,7 @@ namespace PacketDotNet
         {
             // set the header field, header field values are retrieved from this byte array
             header = new ByteArraySegment(bas);
+            RandomUtils.EnsurePacketLength(this, IGMPv2Fields.HeaderLength, header.Length);
             header.Length = UdpFields.HeaderLength;
 
             // store the payload bytes

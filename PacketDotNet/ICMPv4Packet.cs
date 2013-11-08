@@ -150,6 +150,7 @@ namespace PacketDotNet
             log.Debug("");
 
             header = new ByteArraySegment(bas);
+            RandomUtils.EnsurePacketLength(this, ICMPv4Fields.HeaderLength, header.Length);
             header.Length = ICMPv4Fields.HeaderLength;
 
             // store the payload bytes

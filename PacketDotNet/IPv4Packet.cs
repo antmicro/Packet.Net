@@ -519,6 +519,7 @@ namespace PacketDotNet
             log.Debug("");
 
             header = new ByteArraySegment(bas);
+            RandomUtils.EnsurePacketLength(this, IPv4Fields.HeaderLength, header.Length);
 
             // TOS? See http://en.wikipedia.org/wiki/TCP_offload_engine
             if (TotalLength == 0)
@@ -526,16 +527,12 @@ namespace PacketDotNet
                 TotalLength = header.Length;
             }
 
-            // Check that the TotalLength is valid, at least HeaderMinimumLength long
-            if(TotalLength < HeaderMinimumLength)
-            {
-                throw new System.InvalidOperationException("TotalLength " + TotalLength + " < HeaderMinimumLength " + HeaderMinimumLength);
-            }
-
             // update the header length with the correct value
             // NOTE: we take care to convert from 32bit words into bytes
             // NOTE: we do this *after* setting header because we need header to be valid
             //       before we can retrieve the HeaderLength property
+
+            RandomUtils.EnsurePacketLength(this, HeaderLength * 4, header.Length);
             header.Length = HeaderLength * 4;
 
             log.DebugFormat("IPv4Packet HeaderLength {0}", HeaderLength);

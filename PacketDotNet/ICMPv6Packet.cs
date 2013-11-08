@@ -104,6 +104,7 @@ namespace PacketDotNet
             log.Debug("");
 
             header = new ByteArraySegment(bas);
+            RandomUtils.EnsurePacketLength(this, ICMPv6Fields.HeaderLength, header.Length);
         }
 
         /// <summary>

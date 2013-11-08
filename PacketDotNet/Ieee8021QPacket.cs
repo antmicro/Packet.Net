@@ -164,6 +164,7 @@ namespace PacketDotNet
         {
             // set the header field, header field values are retrieved from this byte array
             header = new ByteArraySegment(bas);
+            RandomUtils.EnsurePacketLength(this, Ieee8021QFields.HeaderLength, header.Length);
             header.Length = Ieee8021QFields.HeaderLength;
 
             // parse the payload via an EthernetPacket method

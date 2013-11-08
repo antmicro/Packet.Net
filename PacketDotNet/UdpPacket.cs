@@ -194,6 +194,7 @@ namespace PacketDotNet
 
             // set the header field, header field values are retrieved from this byte array
             header = new ByteArraySegment(bas);
+            RandomUtils.EnsurePacketLength(this, UdpFields.HeaderLength, header.Length);
             header.Length = UdpFields.HeaderLength;
 
             payloadPacketOrData = new PacketOrByteArraySegment();

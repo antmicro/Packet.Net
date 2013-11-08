@@ -190,6 +190,7 @@ namespace PacketDotNet
 
             // slice off the header portion
             header = new ByteArraySegment(bas);
+            RandomUtils.EnsurePacketLength(this, PPPoEFields.HeaderLength, header.Length);
             header.Length = PPPoEFields.HeaderLength;
 
             // parse the encapsulated bytes
