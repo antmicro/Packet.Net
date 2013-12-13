@@ -460,6 +460,11 @@ namespace PacketDotNet
             }
         }
 
+        public override void UpdateCalculatedValues()
+        {
+            UpdateTCPChecksum();
+        }
+
         /// <summary>
         /// Parses options, pointed to by optionBytes into an array of Options
         /// </summary>

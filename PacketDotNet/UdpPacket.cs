@@ -156,6 +156,8 @@ namespace PacketDotNet
             // update the length field based on the length of this packet header
             // plus the length of all of the packets it contains
             Length = TotalPacketLength;
+
+            UpdateUDPChecksum();
         }
 
         /// <summary>

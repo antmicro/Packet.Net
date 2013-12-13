@@ -518,7 +518,7 @@ namespace PacketDotNet
                     log.Debug("");
     
                     // ensure calculated values are properly updated
-                    RecursivelyUpdateCalculatedValues();
+                    //RecursivelyUpdateCalculatedValues();
     
                     // if we share memory with all of our sub packets we can take a
                     // higher performance path to retrieve the bytes

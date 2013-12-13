@@ -637,13 +637,16 @@ namespace PacketDotNet
         }
 
         /// <summary>
-        /// Update the length fields
+        /// Update the length and checksum fields
         /// </summary>
         public override void UpdateCalculatedValues ()
         {
+
             // update the length field based on the length of this packet header
             // plus the length of all of the packets it contains
             TotalLength = TotalPacketLength;
+
+            UpdateIPChecksum();
         }
     }
 }

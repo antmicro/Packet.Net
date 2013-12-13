@@ -233,7 +233,7 @@ namespace PacketDotNet
                 log.Debug("");
 
                 // ensure calculated values are properly updated
-                RecursivelyUpdateCalculatedValues();
+                //RecursivelyUpdateCalculatedValues();
 
                 // if we share memory with all of our sub packets we can take a
                 // higher performance path to retrieve the bytes
@@ -326,15 +326,19 @@ namespace PacketDotNet
         /// Used to ensure that values like checksums and lengths are
         /// properly updated
         /// </summary>
-        protected void RecursivelyUpdateCalculatedValues()
+        public void RecursivelyUpdateCalculatedValues(int depth = 0)
         {
             // call the possibly overridden method
             UpdateCalculatedValues();
+            if(depth == 10)
+            {
+                Console.WriteLine("dupa");
+            }
 
             // if the packet contains another packet, call its
-            if(payloadPacketOrData.Type == PayloadType.Packet)
+            if(payloadPacketOrData.Type == PayloadType.Packet && payloadPacketOrData.ThePacket != this)
             {
-                payloadPacketOrData.ThePacket.RecursivelyUpdateCalculatedValues();
+                payloadPacketOrData.ThePacket.RecursivelyUpdateCalculatedValues(depth +1);
             }
         }
 

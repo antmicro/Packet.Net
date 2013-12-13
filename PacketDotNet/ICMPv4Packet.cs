@@ -263,5 +263,11 @@ namespace PacketDotNet
 
             return null;
         }
+
+        public override void UpdateCalculatedValues()
+        {
+            byte[] dataToChecksum = ((IpPacket)ParentPacket).PayloadPacket.Bytes;
+            Checksum = (ushort)ChecksumUtils.OnesComplementSum(dataToChecksum);
+        }
     }
 }
