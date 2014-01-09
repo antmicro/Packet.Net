@@ -22,6 +22,7 @@ along with PacketDotNet.  If not, see <http://www.gnu.org/licenses/>.
 using System.IO;
 using System.Text;
 using PacketDotNet.Utils;
+using System.Linq;
 
 namespace PacketDotNet
 {
@@ -326,19 +327,25 @@ namespace PacketDotNet
         /// Used to ensure that values like checksums and lengths are
         /// properly updated
         /// </summary>
-        public void RecursivelyUpdateCalculatedValues(int depth = 0)
+        public void RecursivelyUpdateCalculatedValues(EthernetPacketType[] supportedEthernetPacketTypes = null, IPProtocolType[] supportedIPProtocols = null)
+        {
+            RecursivelyUpdateCalculatedValues(0, supportedEthernetPacketTypes, supportedIPProtocols, false);
+        }
+
+        protected void RecursivelyUpdateCalculatedValues(int depth, EthernetPacketType[] supportedEthernetPacketTypes, IPProtocolType[] supportedIPProtocols, bool skipLevel)
         {
             // call the possibly overridden method
-            UpdateCalculatedValues();
-            if(depth == 10)
+            if(!skipLevel)
             {
-                Console.WriteLine("dupa");
+                UpdateCalculatedValues();
             }
 
-            // if the packet contains another packet, call its
+            // if the packet contains another packet, try it
             if(payloadPacketOrData.Type == PayloadType.Packet && payloadPacketOrData.ThePacket != this)
             {
-                payloadPacketOrData.ThePacket.RecursivelyUpdateCalculatedValues(depth +1);
+                var skip = (this is EthernetPacket && supportedEthernetPacketTypes.Contains(((EthernetPacket)this).Type))
+                    || (this is IpPacket && supportedIPProtocols.Contains(((IpPacket)this).NextHeader));
+                payloadPacketOrData.ThePacket.RecursivelyUpdateCalculatedValues(depth +1, supportedEthernetPacketTypes, supportedIPProtocols, skip);
             }
         }
 
