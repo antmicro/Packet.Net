@@ -343,8 +343,8 @@ namespace PacketDotNet
             // if the packet contains another packet, try it
             if(payloadPacketOrData.Type == PayloadType.Packet && payloadPacketOrData.ThePacket != this)
             {
-                var skip = (this is EthernetPacket && supportedEthernetPacketTypes.Contains(((EthernetPacket)this).Type))
-                    || (this is IpPacket && supportedIPProtocols.Contains(((IpPacket)this).NextHeader));
+                var skip = (this is EthernetPacket && !supportedEthernetPacketTypes.Contains(((EthernetPacket)this).Type))
+                    || (this is IpPacket && !supportedIPProtocols.Contains(((IpPacket)this).NextHeader));
                 payloadPacketOrData.ThePacket.RecursivelyUpdateCalculatedValues(depth +1, supportedEthernetPacketTypes, supportedIPProtocols, skip);
             }
         }
