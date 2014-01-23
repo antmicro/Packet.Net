@@ -20,7 +20,7 @@ along with PacketDotNet.  If not, see <http://www.gnu.org/licenses/>.
 
 using PacketDotNet.Utils;
 
-﻿namespace PacketDotNet
+namespace PacketDotNet
 {
     /// <summary>
     /// Session layer packet
