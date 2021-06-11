@@ -338,7 +338,7 @@ namespace PacketDotNet
             // set the actual length, we need to do this because we need to set
             // header to something valid above before we can retrieve the PayloadLength
             log.DebugFormat("PayloadLength: {0}", PayloadLength);
-            RandomUtils.EnsurePacketLength(this, bas.Length - PayloadLength, header.Length);
+            RandomUtils.EnsurePacketLength(this, IPv6Packet.HeaderMinimumLength, bas.Length - PayloadLength);
             header.Length = bas.Length - PayloadLength;
 
             // parse the payload
