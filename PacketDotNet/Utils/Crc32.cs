@@ -28,7 +28,6 @@ namespace PacketDotNet.Utils
         private uint _crc;
         private readonly uint[] _crc32Table;
         private static readonly Hashtable _crc32TablesCache;
-        private static readonly Crc32 _defaultCRC;
 
         #endregion Fields
 
@@ -57,7 +56,6 @@ namespace PacketDotNet.Utils
         static Crc32()
         {
             _crc32TablesCache = Hashtable.Synchronized(new Hashtable());
-            _defaultCRC = new Crc32();
         }
 
         #endregion Constructors
@@ -67,29 +65,29 @@ namespace PacketDotNet.Utils
         /// <summary>Computes the CRC32 value for the given ASCII string using the <see cref="DefaultPolynomial"/>.</summary>
         public static int Compute(string asciiString)
         {
-            _defaultCRC.Initialize();
-            return ToInt32(_defaultCRC.ComputeHash(asciiString));
+            var crc = new Crc32();
+            return ToInt32(crc.ComputeHash(asciiString));
         }
 
         /// <summary>Computes the CRC32 value for the given input stream using the <see cref="DefaultPolynomial"/>.</summary>
         public static int Compute(Stream inputStream)
         {
-            _defaultCRC.Initialize();
-            return ToInt32(_defaultCRC.ComputeHash(inputStream));
+            var crc = new Crc32();
+            return ToInt32(crc.ComputeHash(inputStream));
         }
 
         /// <summary>Computes the CRC32 value for the input data using the <see cref="DefaultPolynomial"/>.</summary>
         public static int Compute(byte[] buffer)
         {
-            _defaultCRC.Initialize();
-            return ToInt32(_defaultCRC.ComputeHash(buffer));
+            var crc = new Crc32();
+            return ToInt32(crc.ComputeHash(buffer));
         }
 
         /// <summary>Computes the hash value for the input data using the <see cref="DefaultPolynomial"/>.</summary>
         public static int Compute(byte[] buffer, int offset, int count)
         {
-            _defaultCRC.Initialize();
-            return ToInt32(_defaultCRC.ComputeHash(buffer, offset, count));
+            var crc = new Crc32();
+            return ToInt32(crc.ComputeHash(buffer, offset, count));
         }
 
         /// <summary>Computes the hash value for the given ASCII string.</summary>
