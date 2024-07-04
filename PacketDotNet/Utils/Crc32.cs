@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -27,7 +28,7 @@ namespace PacketDotNet.Utils
         private const uint _allOnes = 0xffffffff;
         private uint _crc;
         private readonly uint[] _crc32Table;
-        private static readonly Hashtable _crc32TablesCache;
+        private static readonly ConcurrentDictionary<uint, uint[]> _crc32TablesCache;
 
         #endregion Fields
 
@@ -44,18 +45,20 @@ namespace PacketDotNet.Utils
         public Crc32(uint polynomial)
         {
             HashSizeValue = 32;
-            _crc32Table = (uint[])_crc32TablesCache[polynomial];
-            if (_crc32Table == null) {
+
+            if (!_crc32TablesCache.TryGetValue(polynomial, out _crc32Table)) 
+            {
                 _crc32Table = BuildCrc32Table(polynomial);
-                _crc32TablesCache.Add(polynomial, _crc32Table);
+                _crc32TablesCache.TryAdd(polynomial, _crc32Table);
             }
+            
             Initialize();
         }
 
         // static constructor
         static Crc32()
         {
-            _crc32TablesCache = Hashtable.Synchronized(new Hashtable());
+            _crc32TablesCache = new ConcurrentDictionary<uint, uint[]>();
         }
 
         #endregion Constructors
