@@ -333,13 +333,9 @@ namespace PacketDotNet
             // slice off the header
             header = new ByteArraySegment(bas);
             RandomUtils.EnsurePacketLength(this, IPv6Fields.HeaderLength, header.Length);
+            // Base IPv6 header is always 40 bytes. Any extension headers
+            // should be processed based on the value of the `NextHeader` field
             header.Length = IPv6Packet.HeaderMinimumLength;
-
-            // set the actual length, we need to do this because we need to set
-            // header to something valid above before we can retrieve the PayloadLength
-            log.DebugFormat("PayloadLength: {0}", PayloadLength);
-            RandomUtils.EnsurePacketLength(this, IPv6Packet.HeaderMinimumLength, bas.Length - PayloadLength);
-            header.Length = bas.Length - PayloadLength;
 
             // parse the payload
             var payload = header.EncapsulatedBytes(PayloadLength);
