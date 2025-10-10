@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-	  <Deterministic>false</Deterministic>
+    <Deterministic>false</Deterministic>
     <AssemblyName>PacketDotNet</AssemblyName>
     <RootNamespace>PacketDotNet</RootNamespace>
   </PropertyGroup>
