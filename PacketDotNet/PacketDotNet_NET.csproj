@@ -5,6 +5,7 @@
     <Deterministic>false</Deterministic>
     <AssemblyName>PacketDotNet</AssemblyName>
     <RootNamespace>PacketDotNet</RootNamespace>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net" Condition=" '$(Configuration)' == 'DEBUG' ">
